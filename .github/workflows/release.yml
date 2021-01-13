@@ -1,0 +1,29 @@
+name: Upload Release Asset
+
+on:
+  workflow_run:
+    workflows: [".NET Core"] 
+    types:
+      - completed 
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: [ubuntu-latest]
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.ref, 'refs/tags/') }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+
+      - name: Debug
+        run: |
+          echo "github=$GLOBAL_GITHUB"
+          echo "job=$GLOBAL_JOB"
+          echo "steps=$GLOBAL_STEPS"
+        env:
+          GLOBAL_GITHUB: ${{ toJson(github) }}
+          GLOBAL_JOB: ${{ toJson(job) }}
+          GLOBAL_STEPS: ${{ toJson(steps) }}
+ 

@@ -1,0 +1,27 @@
+name: .NET Core
+on:
+  push:
+    tags:
+      - '**'
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: git fetch --prune --unshallow
+
+    - name: Debug
+      run: |
+        echo "github=$GLOBAL_GITHUB"
+        echo "job=$GLOBAL_JOB"
+        echo "steps=$GLOBAL_STEPS"
+      env:
+        GLOBAL_GITHUB: ${{ toJson(github) }}
+        GLOBAL_JOB: ${{ toJson(job) }}
+        GLOBAL_STEPS: ${{ toJson(steps) }}
+ 
