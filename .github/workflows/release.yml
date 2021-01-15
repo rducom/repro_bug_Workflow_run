@@ -15,7 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: git fetch --prune --unshallow
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Debug
         run: |
